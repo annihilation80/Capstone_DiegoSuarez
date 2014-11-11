@@ -17,8 +17,17 @@
     @Html.ActionLink("About Sync View", "AboutPage")
     <br /><br />
     <div>
-        <h3>Welcome to Sync View</h3>
+        <h3>Welcome to Sync View @if (Session["nickname"] != null){ @Session["nickname"].ToString()}</h3>
         <p></p>
+
+        @if(Session["nickname"] == null){
+            using (Html.BeginForm()){
+                @Html.ValidationSummary()
+                <p>What is your nickname?</p> <br />
+                <input type="text" name="nickname" />
+                <input type="submit" value="Submit" />
+            }
+        }
     </div>
 </body>
 </html>

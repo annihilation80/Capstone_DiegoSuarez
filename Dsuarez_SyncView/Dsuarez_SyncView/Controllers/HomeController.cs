@@ -13,11 +13,16 @@ namespace Dsuarez_SyncView.Controllers
 
         public ActionResult Index()
         {
+            if (Session["nickname"] == null)
+            {
+                Session["nickname"] = Request.Form["nickname"];
+            }
+
             return View();
         }
-
+        
         public ActionResult VideoBrowser()
-        {
+        {        
             return View();
         }
 
