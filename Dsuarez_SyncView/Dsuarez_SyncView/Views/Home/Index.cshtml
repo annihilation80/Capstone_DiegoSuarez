@@ -13,7 +13,7 @@
     <h1>Sync View - Home</h1>
     <br /><br />
     @Html.ActionLink("Home", "Index")
-    @Html.ActionLink("Browse Videos", "VideoBrowser")
+    @Html.ActionLink("Video Session", "VideoBrowser")
     @Html.ActionLink("About Sync View", "AboutPage")
     <br /><br />
     <div>
@@ -25,9 +25,14 @@
                 @Html.ValidationSummary()
                 <p>What is your nickname?</p> <br />
                 <input type="text" name="nickname" />
-                <input type="submit" value="Submit" />
+                <input type="submit" name="submit" value="Submit" />
+            
+            
+                <input type="text" name="videoURL" />
             }
         }
     </div>
+    <iframe width="854" height="510" src="@ViewBag.videoURL" frameborder="0" allowfullscreen></iframe>
+
 </body>
 </html>
