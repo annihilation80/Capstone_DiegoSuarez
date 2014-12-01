@@ -11,7 +11,7 @@
 
     <style>
         div#videoPlayerBox {
-            width: 550px;
+            width: 650px;
             border: ridge;
         }
 
@@ -19,6 +19,10 @@
             border-top: ridge;
             padding: 5px;
             background: #161616;
+            color: #c1c1c1;
+        }
+        ::-webkit-media-controls {
+            display:none !important;
         }
 
     </style>
@@ -67,6 +71,7 @@
             var video = document.getElementById("video");
             var playPauseButton = document.getElementById("playPauseButton");
             var seekSlider = document.getElementById("seekSlider");
+            var text = document.getElementById("test");
             
             videoHub.client.playPauseVideo = function () {
                 if (video.paused) {
@@ -78,8 +83,8 @@
                 }
             };
 
-            videoHub.client.seek = function () {
-                var seekto = video.duration * (seekSlider.value / 100);
+            videoHub.client.seekTo = function (val) {
+                var seekto = video.duration * (val / 100);
                 video.currentTime = seekto;
             };
 
@@ -87,18 +92,46 @@
                 $('#playPauseButton').click(function () {
                     videoHub.server.sendPlayPause();
                 });
+                
+                $('#seekSlider').change(function () {
+                    videoHub.server.sendSeek($('#seekSlider').val());
+                });
 
                 $('#syncButton').click(function () {
                     videoHub.server.sendSync();
                 });
-
-                $('#seekSlider').change(function () {
-                    videoHub.server.sendSeek()
-                });
             });
 
+            var curTimeText = document.getElementById("curTimeText");
+            var durTimeText = document.getElementById("durTimeText");
             var muteButton = document.getElementById("muteButton");
+            var volumeSlider = document.getElementById("volumeSlider");
+            var fullscreenButton = document.getElementById("fullscreenButton");
+            var videoPlayerBox = document.getElementById("videoPlayerBox");
+            var videoControls = document.getElementById("videoControls");
+
+            video.addEventListener("timeupdate", seekTimeUpdate, false);
             muteButton.addEventListener("click", mute, false);
+            volumeSlider.addEventListener("change", setVolume, false);
+            fullscreenButton.addEventListener("click", toggleFullscreen, false);
+
+            function seekTimeUpdate() {
+                var newTime = video.currentTime * (100 / video.duration);
+                seekSlider.value = newTime;
+
+                var curMins = Math.floor(video.currentTime / 60);
+                var curSecs = Math.floor(video.currentTime - curMins * 60);
+                var durMins = Math.floor(video.duration / 60);
+                var durSecs = Math.floor(video.duration - durMins * 60);
+
+                if (curMins < 10) { curMins = "0" + curMins; }
+                if (curSecs < 10) { curSecs = "0" + curSecs; }
+                if (durMins < 10) { durMins = "0" + durMins; }
+                if (durSecs < 10) { durSecs = "0" + durSecs; }
+
+                curTimeText.innerHTML = curMins + ":" + curSecs;
+                durTimeText.innerHTML = durMins + ":" + durSecs;
+            }
 
             function mute() {
                 if (video.muted) {
@@ -109,6 +142,21 @@
                     muteButton.innerHTML = "Unmute";
                 }
             };
+
+            function setVolume() {
+                video.volume = volumeSlider.value / 100;
+            }
+
+            function toggleFullscreen() {
+                if (videoPlayerBox.requestFullscreen) {
+                    videoPlayerBox.requestFullscreen();
+                } else if (videoPlayerBox.mozRequestFullScreen) {
+                    videoPlayerBox.mozRequestFullScreen(); // Firefox
+                } else if (videoPlayerBox.webkitRequestFullscreen) {
+                    videoPlayerBox.webkitRequestFullscreen(); // Chrome and Safari
+                }
+            }
+
         });
     </script>
 
@@ -123,7 +171,7 @@
     <br /><br />
 
     <div id="videoPlayerBox">
-        <video width="550" id="video" >
+        <video width="650" id="video" >
             <source src="~/Videos/movie.webm" type="video/webm"/>
             Your browser does not support HTML5 video.
         </video>
@@ -131,10 +179,11 @@
         {
             <div id="videoControls">
                 <button id="playPauseButton" disabled="@(!(bool)Session["IsHost"])" >Play</button>
-                <input type="range" id="seekSlider" max="100" min="0" step="1" disabled="@(!(bool)Session["IsHost"])" />
+                <input type="range" id="seekSlider" max="100" min="0" value="0" step="1" disabled="@(!(bool)Session["IsHost"])" />
+                <span id="curTimeText">00:00</span> / <span id="durTimeText">00:00</span>
                 <button id="muteButton">Mute</button>
-                <input type="range" id="volumeSlider" max="100" min="0" step="1"/>
-                <input type="button" id="fullScreenButton" value="[   ]" /> 
+                <input type="range" id="volumeSlider" max="100" min="0" value="100" step="1"/>
+                <input type="button" id="fullscreenButton" value="[   ]" /> 
                 <input type="button" id="syncButton" value="Sync" />
             </div>
         }

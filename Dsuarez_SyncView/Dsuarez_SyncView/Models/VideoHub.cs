@@ -16,9 +16,9 @@ namespace Dsuarez_SyncView.Models
             Clients.All.syncVideo();
         }
 
-        public void sendSeek()
+        public void sendSeek(string val)
         {
-            Clients.All.seek();
+            Clients.All.seekTo(val);
         }
     }
 }

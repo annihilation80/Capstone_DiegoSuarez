@@ -30,3 +30,4 @@ C:\Users\Diego Suarez\Desktop\School Stuff\Current Classes\Capstone\GitHub\Capst
 C:\Users\Diego Suarez\Desktop\School Stuff\Current Classes\Capstone\GitHub\Capstone_DiegoSuarez\Dsuarez_SyncView\Dsuarez_SyncView\bin\System.Web.WebPages.Razor.xml
 C:\Users\Diego Suarez\Desktop\School Stuff\Current Classes\Capstone\GitHub\Capstone_DiegoSuarez\Dsuarez_SyncView\Dsuarez_SyncView\obj\Debug\Dsuarez_SyncView.dll
 C:\Users\Diego Suarez\Desktop\School Stuff\Current Classes\Capstone\GitHub\Capstone_DiegoSuarez\Dsuarez_SyncView\Dsuarez_SyncView\obj\Debug\Dsuarez_SyncView.pdb
+C:\Users\Diego Suarez\Desktop\School Stuff\Current Classes\Capstone\GitHub\Capstone_DiegoSuarez\Dsuarez_SyncView\Dsuarez_SyncView\obj\Debug\Dsuarez_SyncView.csprojResolveAssemblyReference.cache
